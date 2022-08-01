@@ -1,0 +1,113 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter&family=Poppins:wght@300;400&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Inter&family=Poppins:wght@300;400&display=swap");
+
+* {
+  font-family: Poppins, san-serif;
+}
+
+.description,
+.art-description-story {
+  padding: 10px;
+}
+
+.description-container {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.description-image-container {
+  width: 100%;
+  overflow: hidden;
+  margin-top: 60px;
+}
+
+.description-image {
+  width: 100%;
+  height: 100%;
+  transition: transform 1s;
+}
+
+.description-image:hover {
+  transform: scale(1.2);
+}
+
+h1 {
+  margin: 20px 0;
+  font-family: "DM Serif Text", serif;
+  font-size: 2rem;
+}
+
+.art-description-details {
+  margin-top: 20px;
+}
+
+.art-ownership {
+  margin: 20px 0;
+}
+
+.art-icon-tag {
+  margin: 0;
+}
+
+.description-art-tag {
+  font-size: 10px;
+  color: rgb(114, 114, 114);
+}
+
+.delineateor {
+  color: rgb(0, 0, 0);
+}
+
+.art-description-details,
+.art-contract-details {
+  padding: 20px 0;
+  border-top: 1px solid rgb(208, 208, 208);
+}
+
+.art-contract-details {
+  padding: 0;
+}
+
+.details-icon {
+  height: 1.5rem;
+}
+
+.art-icon-tag {
+  margin: 0;
+}
+
+.buy-button {
+  margin-top: 10px;
+  color: white;
+  background-color: black;
+  padding: 10px;
+  font-size: large;
+  cursor: pointer;
+  width: 100%;
+}
+
+@media screen and (min-width: 600px) {
+  .container {
+    padding: 150px 50px;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .container {
+    padding: 150px;
+  }
+
+  .description-container {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: auto;
+    grid-gap: 20px;
+    align-items: center;
+  }
+
+  .art-description-story {
+    grid-column: 1/-1;
+    text-align: center;
+    padding: 0 100px;
+  }
+}
