@@ -1,8 +1,43 @@
-import ArtData from "../ArtData";
+import {ethers} from "ethers";
+import { useEffect, useState } from 'react'
+import axios from 'axios';
+import TwoBrothersAndOneLumbo from "../abis/marketplace.json";
 import Art from "../Art";
-import { Link } from "react-router-dom";
+
+
 export default function Marketplace() {
-  const artGallery = ArtData.map((art) => (
+  const marketplaceAddr = "0x726f3fbcecB7d08de69C899082E5D747111e6172";
+  const [artGallery, setArtGallery] = useState([])
+  useEffect(() => {
+    loadNFTs()
+  }, [])
+  async function loadNFTs() {
+    const provider = new ethers.providers.JsonRpcProvider()
+    const contract = new ethers.Contract(marketplaceAddr, TwoBrothersAndOneLumbo.abi, provider)
+    const data = await contract.fetchMarketItems()
+
+    /*
+    *  map over items returned from smart contract and format 
+    *  them as well as fetch their token metadata
+    */
+    const items = await Promise.all(data.map(async i => {
+      const tokenUri = await contract.tokenURI(i.tokenId)
+      const meta = await axios.get(tokenUri)
+      let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
+      let item = {
+        price,
+        id: i.tokenId.toNumber(),
+        artist: meta.data.artist,
+        img: meta.data.img,
+        title: meta.data.title,
+        style: meta.data.style,
+        url: meta.data.style
+      }
+      return item
+    }))
+    setArtGallery(items)
+  }
+  const gallery = artGallery.map((art) => (
     <Art
       title={art.title}
       artist={art.artist}
@@ -48,7 +83,7 @@ export default function Marketplace() {
       </header>
       <section className="app-container">
         <div className="gallery-container">
-          <div className="gallery">{artGallery}</div>
+          <div className="gallery">{gallery}</div>
         </div>
       </section>
     </div>
