@@ -12,7 +12,7 @@ export default function Art(props) {
       <img className="art-image" src={props.artImage} alt="burnOut" />
     );
 
-  const webpath = `/marketplace/${props.urlPath}`;
+  const webpath = `/marketplace/${props.key}`;
 
   return (
     <div className="art">

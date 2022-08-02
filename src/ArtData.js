@@ -1,4 +1,4 @@
-let imagesFolder = "./images/square";
+let imagesFolder = "./images/square"
 
 export default [
   {
