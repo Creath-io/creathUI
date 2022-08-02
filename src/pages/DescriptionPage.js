@@ -1,6 +1,9 @@
 import {ethers} from "ethers";
 import "../DescriptionPage.css";
 import { useParams } from "react-router-dom";
+import {
+  CONTRACT_ADDRESS,
+  PROVIDER } from "../constants"
 import Navbar from "./Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from 'axios';
@@ -13,34 +16,34 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from 'react'
 import Web3Modal from 'web3modal';
+var base64 = require('base-64');
 
 export default function DescriptionPage() {
   const params = useParams();
   const [buyButtonText, setBuyButtonText] = useState("Buy");
-  const marketplaceAddr = "0x726f3fbcecB7d08de69C899082E5D747111e6172";
-  const [art, setArt] = useState({});
-  useEffect(() => {
-    loadNFT()
-  }, [])
-  async function loadNFT() {
-    const provider = new ethers.providers.JsonRpcProvider()
-    const contract = new ethers.Contract(marketplaceAddr, TwoBrothersAndOneLumbo.abi, provider)
-    /*
-    *  map over items returned from smart contract and format 
-    *  them as well as fetch their token metadata
-    */
-    const tokenUri = await contract.tokenURI(params.key);
-    const meta = await axios.get(tokenUri)
-    let price = ethers.utils.formatUnits(meta.data.price.toString(), 'ether')
-    let item = {
-      price,
-      artist: meta.data.artist,
-      img: meta.data.img,
-      title: meta.data.title,
-      description: meta.data.description
+  const [art, setArt] = useState("");
+
+    useEffect(()=> {
+      fetchMetadata()
+    },[])
+    const fetchMetadata = async() => {
+      console.log("fetching nft");
+      const provider = new ethers.providers.JsonRpcProvider(PROVIDER)
+      const contract = new ethers.Contract(CONTRACT_ADDRESS, TwoBrothersAndOneLumbo.abi, provider)
+
+      const tokenUri = await contract.tokenURI(params.key);
+      const json = base64.decode(tokenUri.substring(29))
+      const meta = JSON.parse(json)
+      setArt({
+        price: meta.price,
+        artist: meta.artist,
+        img: meta.img,
+        title: meta.title,
+        description: meta.description
+      })
     }
-    setArt(item);
-  }
+    fetchMetadata()
+  
 
   async function buyItem(nft) {
     /* needs the user to sign the transaction, so will use Web3Provider and sign it */
@@ -48,12 +51,11 @@ export default function DescriptionPage() {
     const connection = await web3Modal.connect()
     const provider = new ethers.providers.Web3Provider(connection)
     const signer = provider.getSigner()
-    const contract = new ethers.Contract(marketplaceAddr, TwoBrothersAndOneLumbo.abi, signer)
+    const contract = new ethers.Contract(CONTRACT_ADDRESS, TwoBrothersAndOneLumbo.abi, signer)
   
     const transaction = await contract.buyItem(nft)
     await transaction.wait()
     setBuyButtonText("SOLD")
-    loadNFT()
   }
 
   return (

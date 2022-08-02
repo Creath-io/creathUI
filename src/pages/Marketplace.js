@@ -1,53 +1,47 @@
-import {ethers} from "ethers";
 import { useEffect, useState } from 'react'
+import {ethers} from "ethers";
 import axios from 'axios';
+import {
+  CONTRACT_ADDRESS,
+  PROVIDER } from "../constants"
 import TwoBrothersAndOneLumbo from "../abis/marketplace.json";
 import Art from "../Art";
+var base64 = require('base-64');
 
 
-export default function Marketplace() {
-  const marketplaceAddr = "0x726f3fbcecB7d08de69C899082E5D747111e6172";
-  const [artGallery, setArtGallery] = useState([])
+const Marketplace = () => {
+  const [gallery, setGallery] = useState([])
+
   useEffect(() => {
-    loadNFTs()
+    fetchItems()
   }, [])
-  async function loadNFTs() {
-    const provider = new ethers.providers.JsonRpcProvider()
-    const contract = new ethers.Contract(marketplaceAddr, TwoBrothersAndOneLumbo.abi, provider)
-    const data = await contract.fetchMarketItems()
 
-    /*
-    *  map over items returned from smart contract and format 
-    *  them as well as fetch their token metadata
-    */
-    const items = await Promise.all(data.map(async i => {
-      const tokenUri = await contract.tokenURI(i.tokenId)
-      const meta = await axios.get(tokenUri)
-      let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
+  const fetchItems = async () => {
+    console.log("fetching Items")
+    const provider = new ethers.providers.JsonRpcProvider(PROVIDER)
+    const contract = new ethers.Contract(CONTRACT_ADDRESS, TwoBrothersAndOneLumbo.abi, provider)
+    const txn = await contract.fetchMarketItems()
+    const ids = txn.map((i) => { return i.tokenId })
+    ids.shift()
+    ids.pop()
+    const items = await Promise.all(ids.map(async id => {
+      const tokenUri = await contract.tokenURI(id)
+      const json = base64.decode(tokenUri.substring(29));
+      const meta = JSON.parse(json)
       let item = {
-        price,
-        id: i.tokenId.toNumber(),
-        artist: meta.data.artist,
-        img: meta.data.img,
-        title: meta.data.title,
-        style: meta.data.style,
-        url: meta.data.style
+        tokenId: meta.id,
+        title: meta.title,
+        artist: meta.artist,
+        price: meta.price,
+        artImage: meta.img,
+        style: meta.style
       }
+
       return item
-    }))
-    setArtGallery(items)
-  }
-  const gallery = artGallery.map((art) => (
-    <Art
-      title={art.title}
-      artist={art.artist}
-      price={art.price}
-      artImage={art.img}
-      style={art.style}
-      key={art.id}
-      urlPath={art.url}
-    />
-  ));
+      
+    }));
+    setGallery(items)
+  }  
   return (
     <div>
       {/* <Link to="/">Home</Link> */}
@@ -83,9 +77,21 @@ export default function Marketplace() {
       </header>
       <section className="app-container">
         <div className="gallery-container">
-          <div className="gallery">{gallery}</div>
+          <div className="gallery">{
+            gallery.map((item) => (
+              <Art
+                title= {item.title}
+                artist= {item.artist}
+                price= {item.price}
+                artImage= {item.artImage}
+                style= {item.style}
+                id= {item.tokenId}
+              />
+            ))
+          }</div>
         </div>
       </section>
     </div>
   );
 }
+export default Marketplace;
