@@ -7,9 +7,11 @@ import {
   faList,
   faFeather,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { useState } from "react";
 
 export default function DescriptionPage(props) {
+  const [buyButtonText, setBuyButtonText] = useState("Buy");
+
   return (
     <div>
       <section className="container">
@@ -43,7 +45,7 @@ export default function DescriptionPage(props) {
                 </p>
                 <p className="artist-name">{props.price} USDT</p>
                 <button className="buy-button" onClick={""}>
-                  Buy{" "}
+                  {buyButtonText}
                 </button>
               </div>
 

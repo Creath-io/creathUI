@@ -19,6 +19,14 @@ body {
   box-sizing: border-box;
 }
 
+.metamask-wallet-button {
+  box-sizing: border-box;
+  cursor: pointer;
+  border: none;
+  padding: 5px;
+  align-self: center;
+}
+
 /* homepage style */
 
 .home--hero {
@@ -105,15 +113,26 @@ body {
   height: 60px;
   font-size: 1rem;
   color: white;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  /* padding: 0 20px; */
-  margin: auto;
   position: fixed;
   width: 100%;
   z-index: 1;
   top: 0;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  /* text-align: center; */
+}
+
+.App-header .header-nav {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  width: 70%;
+  box-sizing: border-box;
+}
+
+.nav-menu {
+  justify-self: center;
 }
 
 .app-logo {
@@ -123,7 +142,7 @@ body {
 }
 
 nav a {
-  margin: 0 20px;
+  margin-right: 20px;
   color: var(--artBorder);
   text-decoration: none;
   position: relative;
@@ -148,7 +167,7 @@ a:hover::after {
   color: white;
 }
 
-header .nav-btn {
+.nav-btn {
   color: white;
   background: transparent;
   border: none;
@@ -156,6 +175,9 @@ header .nav-btn {
   outline: none;
   display: none;
   font-size: 24px;
+  align-self: center;
+  padding-top: 10px;
+  cursor: pointer;
 }
 
 .nav-mobile-menu {
@@ -171,9 +193,12 @@ mobile menu styling
 ...Beginning*/
 
 @media screen and (max-width: 900px) {
-  .App-header {
-    justify-content: space-between;
-    padding: 0;
+  .App-header .header-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    width: 100%;
+    gap: 10px;
+    box-sizing: border-box;
   }
 
   .remove-header-padding {
