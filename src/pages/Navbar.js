@@ -49,7 +49,7 @@ export default function Navbar() {
         setWalletAddress(accounts[0]);
         setWalletConnected(true);
       } catch (error) {
-        console.log("Error connecting...");
+        alert("Error connecting. Please, try again.");
       }
     } else {
       alert(
