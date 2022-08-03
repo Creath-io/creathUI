@@ -26,44 +26,44 @@ export default function Navbar() {
     );
   }
 
-  //check if wallet is connected
-  const [walletConnected, setWalletConnected] = useState(false);
+  // //check if wallet is connected
+  // const [walletConnected, setWalletConnected] = useState(false);
 
-  //set wallet address
-  const [walletAddress, setWalletAddress] = useState("");
+  // //set wallet address
+  // const [walletAddress, setWalletAddress] = useState("");
 
-  //set wallet button display message
-  const walletMessage = walletConnected
-    ? `Wallet Address: ${walletAddress}`
-    : "Connect Wallet";
+  // //set wallet button display message
+  // const walletMessage = walletConnected
+  //   ? `Wallet Address: ${walletAddress}`
+  //   : "Connect Wallet";
 
-  async function handleConnectWallet() {
-    console.log("Requesting account...");
+  // async function handleConnectWallet() {
+  //   console.log("Requesting account...");
 
-    if (window.ethereum) {
-      console.log(window.ethereum);
-      try {
-        const accounts = await window.ethereum.request({
-          method: "eth_requestAccounts",
-        });
-        setWalletAddress(accounts[0]);
-        setWalletConnected(true);
-      } catch (error) {
-        alert("Error connecting. Please, try again.");
-      }
-    } else {
-      alert(
-        "Meta Mask doesn't exist on this browser. Install Meta Mask to continue"
-      );
-    }
-  }
+  //   if (window.ethereum) {
+  //     console.log(window.ethereum);
+  //     try {
+  //       const accounts = await window.ethereum.request({
+  //         method: "eth_requestAccounts",
+  //       });
+  //       setWalletAddress(accounts[0]);
+  //       setWalletConnected(true);
+  //     } catch (error) {
+  //       alert("Error connecting. Please, try again.");
+  //     }
+  //   } else {
+  //     alert(
+  //       "Meta Mask doesn't exist on this browser. Install Meta Mask to continue"
+  //     );
+  //   }
+  // }
 
-  async function connectWallet() {
-    if (typeof window.ethereum !== "undefined") {
-      await handleConnectWallet();
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-    }
-  }
+  // async function connectWallet() {
+  //   if (typeof window.ethereum !== "undefined") {
+  //     await handleConnectWallet();
+  //     const provider = new ethers.providers.Web3Provider(window.ethereum);
+  //   }
+  // }
   return (
     <>
       <header className="App-header" ref={headerRef}>
@@ -73,12 +73,12 @@ export default function Navbar() {
           </Link>
           {Nav("nav-menu")}
 
-          <button
+          {/* <button
             className="metamask-wallet-button"
             onClick={handleConnectWallet}
           >
             {walletMessage}
-          </button>
+          </button> */}
 
           <button className="nav-btn" onClick={showNavbar}>
             <FaBars />
