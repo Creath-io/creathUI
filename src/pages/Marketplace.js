@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
-import {ethers} from "ethers";
+import { ethers } from "ethers";
 import axios from 'axios';
 import {
   CONTRACT_ADDRESS,
-  PROVIDER } from "../constants"
+  PROVIDER
+} from "../constants"
 import TwoBrothersAndOneLumbo from "../abis/marketplace.json";
 import Art from "../Art";
 var base64 = require('base-64');
@@ -38,10 +39,10 @@ const Marketplace = () => {
       }
 
       return item
-      
+
     }));
     setGallery(items)
-  }  
+  }
   return (
     <div>
       {/* <Link to="/">Home</Link> */}
@@ -80,12 +81,13 @@ const Marketplace = () => {
           <div className="gallery">{
             gallery.map((item) => (
               <Art
-                title= {item.title}
-                artist= {item.artist}
-                price= {item.price}
-                artImage= {item.artImage}
-                style= {item.style}
-                id= {item.tokenId}
+                title={item.title}
+                artist={item.artist}
+                price={item.price}
+                artImage={item.artImage}
+                style={item.style}
+                id={item.tokenId}
+                key={item.tokenId}
               />
             ))
           }</div>
