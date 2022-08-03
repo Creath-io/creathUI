@@ -48,7 +48,7 @@ export default function Home() {
               </p>
             </div>
           </div>
-          <div className="home--section">
+          <div className="home--section golden--ticket--section">
             <video
               loop
               className="golden-ticket"
