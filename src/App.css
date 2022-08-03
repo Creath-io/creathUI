@@ -41,7 +41,7 @@ body {
   padding: 100px 20px;
   background-blend-mode: overlay;
   margin-top: 60px;
-  margin-bottom: 50px;
+  /* margin-bottom: 50px; */
   height: 100vh;
   background-attachment: fixed;
 }
@@ -57,16 +57,49 @@ body {
 }
 
 .home--section {
-  margin-bottom: 50px;
-  border-bottom: 1px solid var(--artBorder);
-  padding-bottom: 50px;
+  display: grid;
+  grid-gap: 20px;
+  align-items: center;
   padding: 20px;
+  margin: 200px 0;
+}
+
+.golden--ticket--section {
+  margin: 0px;
+  padding: 20px;
+  background-color: black;
+  color: white;
+  padding-bottom: 100px;
+}
+
+.golden--ticket--container {
+  margin-bottom: 50px;
+}
+
+.sendfox--container {
+  margin-top: 20px;
+  display: grid;
+  /* padding: 50px; */
+  /* justify-content: center; */
+}
+
+.sendfox--form {
+  display: grid;
+  grid-gap: 5px;
+}
+
+.sendfox--container p input,
+.sendfox--container button {
+  padding: 10px;
+  width: 100%;
+  border-radius: 0px;
+  margin-bottom: 5px;
 }
 
 /* home page, hero section media query begins*/
 @media screen and (min-width: 600px) {
-  .home--section-container {
-    padding: 0 50px;
+  .sendfox--form {
+    width: 50%;
   }
 
   .hero--copy {
@@ -74,16 +107,20 @@ body {
     padding: 100px;
     text-align: center;
   }
-  .home--section {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 20px;
-    align-items: center;
+
+  .golden--ticket--section {
+    color: white;
+    z-index: 1;
+    /* margin: 0px -100px; */
+    /* padding: 100px; */
   }
 
   .golden-ticket-words {
     grid-column: 1;
     grid-row: 1;
+    padding: 50px 100px;
+    align-self: center;
+    color: white;
   }
 }
 
@@ -92,8 +129,24 @@ body {
     width: 50%;
   }
 
-  .home--section-container {
-    padding: 0 100px;
+  .home--section {
+    display: grid;
+    /* grid-template-columns: repeat(2, 1fr); */
+    grid-gap: 20px;
+    /* align-items: center; */
+    /* margin: 200px; */
+    /* width: 60%; */
+    text-align: center;
+  }
+
+  .home--section div {
+    justify-self: center;
+    width: 50%;
+  }
+
+  .golden--ticket--container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -195,7 +248,7 @@ mobile menu styling
 @media screen and (max-width: 900px) {
   .App-header .header-nav {
     display: grid;
-    grid-template-columns: 1fr 1fr auto;
+    grid-template-columns: 1fr auto;
     width: 100%;
     gap: 10px;
     box-sizing: border-box;
