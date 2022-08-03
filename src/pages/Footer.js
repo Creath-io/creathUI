@@ -17,8 +17,8 @@ export default function Footer() {
     "Roadmaps",
   ];
 
-  let servicesList = services.map((service) => (
-    <li>
+  let servicesList = services.map((service, i) => (
+    <li key={i}>
       {" "}
       <FontAwesomeIcon
         className="art-icon"
