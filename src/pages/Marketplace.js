@@ -1,48 +1,20 @@
-import { useEffect, useState } from 'react'
-import { ethers } from "ethers";
-import axios from 'axios';
-import {
-  CONTRACT_ADDRESS,
-  PROVIDER
-} from "../constants"
-import TwoBrothersAndOneLumbo from "../abis/marketplace.json";
 import Art from "../Art";
-var base64 = require('base-64');
+import artData from "../ArtData"
 
 
 const Marketplace = () => {
-  const [gallery, setGallery] = useState([])
-
-  useEffect(() => {
-    fetchItems()
-  }, [])
-
-  const fetchItems = async () => {
-    console.log("fetching Items")
-    const provider = new ethers.providers.JsonRpcProvider(PROVIDER)
-    const contract = new ethers.Contract(CONTRACT_ADDRESS, TwoBrothersAndOneLumbo.abi, provider)
-    const txn = await contract.fetchMarketItems()
-    const ids = txn.map((i) => { return i.tokenId })
-    ids.shift()
-    ids.pop()
-    const items = await Promise.all(ids.map(async id => {
-      const tokenUri = await contract.tokenURI(id)
-      const json = base64.decode(tokenUri.substring(29));
-      const meta = JSON.parse(json)
+    const items = artData.map( art => {
       let item = {
-        tokenId: meta.id,
-        title: meta.title,
-        artist: meta.artist,
-        price: meta.price,
-        artImage: meta.img,
-        style: meta.style
+        tokenId: art.id,
+        title: art.title,
+        artist: art.artist,
+        price: art.price,
+        artImage: art.img,
+        style: art.style
       }
-
       return item
+    });
 
-    }));
-    setGallery(items)
-  }
   return (
     <div>
       {/* <Link to="/">Home</Link> */}
@@ -79,7 +51,7 @@ const Marketplace = () => {
       <section className="app-container">
         <div className="gallery-container">
           <div className="gallery">{
-            gallery.map((item) => (
+            items.map((item) => (
               <Art
                 title={item.title}
                 artist={item.artist}

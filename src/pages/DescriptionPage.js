@@ -7,7 +7,6 @@ import {
   PROVIDER } from "../constants"
 import Navbar from "./Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from 'axios';
 import TwoBrothersAndOneLumbo from "../abis/marketplace.json";
 import ERC20 from "../abis/ERC20.json";
 import {
@@ -25,6 +24,8 @@ export default function DescriptionPage() {
   const params = useParams();
   const [buyButtonText, setBuyButtonText] = useState("Buy");
   const [art, setArt] = useState("");
+  const [isSold, setIsSold] = useState(false)
+  const txn = "Loading...";
 
   const providerOptions = {
     walletconnect: {
@@ -43,6 +44,7 @@ export default function DescriptionPage() {
 
     useEffect(()=> {
       fetchMetadata()
+      checkStatus()
     },[])
 
 
@@ -63,6 +65,14 @@ export default function DescriptionPage() {
       })
     }
     fetchMetadata()
+
+    const checkStatus = async () => {
+      const provider = new ethers.providers.JsonRpcProvider(PROVIDER)
+      const contract = new ethers.Contract(CONTRACT_ADDRESS, TwoBrothersAndOneLumbo.abi, provider)
+
+      //const item = await contract.idToMarketItems(params.key);
+      console.log("status:",contract)
+    }
   
 
   async function buyItem(id, price) {
@@ -73,8 +83,8 @@ export default function DescriptionPage() {
     const signer = provider.getSigner()
     const contract = new ethers.Contract(CONTRACT_ADDRESS, TwoBrothersAndOneLumbo.abi, signer)
     const usdt = new ethers.Contract(USDT,ERC20.abi, signer)
-    console.log(provider)
     await usdt.approve(CONTRACT_ADDRESS , price)
+    setBuyButtonText(txn)
     const transaction = await contract.buyItem(id)
     await transaction.wait()
     setBuyButtonText("SOLD")
@@ -115,7 +125,7 @@ export default function DescriptionPage() {
                 { buyButtonText == "Buy" ? <button className="buy-button" onClick={() => buyItem(params.key, art.price)}>
                   {buyButtonText}
                 </button> : <button className="buy-button">
-                {buyButtonText}
+                { isSold ? buyButtonText : "Sold "}
               </button>}
               </div>
 
