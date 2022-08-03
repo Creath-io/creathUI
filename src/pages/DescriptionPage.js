@@ -3,11 +3,13 @@ import "../DescriptionPage.css";
 import { useParams } from "react-router-dom";
 import {
   CONTRACT_ADDRESS,
+  USDT,
   PROVIDER } from "../constants"
 import Navbar from "./Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from 'axios';
 import TwoBrothersAndOneLumbo from "../abis/marketplace.json";
+import ERC20 from "../abis/ERC20.json";
 import {
   faUser,
   faMoneyBill,
@@ -16,6 +18,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from 'react'
 import Web3Modal from 'web3modal';
+import WalletConnectProvider from "@walletconnect/web3-provider";
 var base64 = require('base-64');
 
 export default function DescriptionPage() {
@@ -23,9 +26,29 @@ export default function DescriptionPage() {
   const [buyButtonText, setBuyButtonText] = useState("Buy");
   const [art, setArt] = useState("");
 
+  const providerOptions = {
+    walletconnect: {
+      package: WalletConnectProvider, 
+      options: {
+        infuraId: "5bb80a78a3b74311859498fa0472f24f"
+      }
+    },
+    authereum: {
+      package: Authereum
+    }
+  };
+  const web3Modal = new Web3Modal({
+    network: "rinkeby",
+    theme: "dark",
+    cacheProvider: true,
+    providerOptions 
+  });
+
     useEffect(()=> {
       fetchMetadata()
     },[])
+
+
     const fetchMetadata = async() => {
       console.log("fetching nft");
       const provider = new ethers.providers.JsonRpcProvider(PROVIDER)
@@ -45,15 +68,17 @@ export default function DescriptionPage() {
     fetchMetadata()
   
 
-  async function buyItem(nft) {
+  async function buyItem(id, price) {
     /* needs the user to sign the transaction, so will use Web3Provider and sign it */
-    const web3Modal = new Web3Modal()
+    
     const connection = await web3Modal.connect()
     const provider = new ethers.providers.Web3Provider(connection)
     const signer = provider.getSigner()
     const contract = new ethers.Contract(CONTRACT_ADDRESS, TwoBrothersAndOneLumbo.abi, signer)
-  
-    const transaction = await contract.buyItem(nft)
+    const usdt = new ethers.Contract(USDT,ERC20.abi, signer)
+    console.log(provider)
+    await usdt.approve(CONTRACT_ADDRESS ,price)
+    const transaction = await contract.buyItem(id)
     await transaction.wait()
     setBuyButtonText("SOLD")
   }
@@ -90,9 +115,11 @@ export default function DescriptionPage() {
                   Price
                 </p>
                 <p className="artist-name">{art.price} USDT</p>
-                <button className="buy-button" onClick={() => buyItem(params.key)}>
+                { buyButtonText == "Buy" ? <button className="buy-button" onClick={() => buyItem(params.key, art.price)}>
                   {buyButtonText}
-                </button>
+                </button> : <button className="buy-button">
+                {buyButtonText}
+              </button>}
               </div>
 
               <div className="art-contract-details">

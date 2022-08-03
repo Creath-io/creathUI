@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function Art(props) {
   const mediaFile =
-    props.artImage.substr(-3) == "mp4" ? (
+    props.artImage.substr(-3) === "mp4" ? (
       <video className="art-video" autoPlay={true} muted playsInline>
         <source src={props.artImage} type="video/mp4" />
       </video>
