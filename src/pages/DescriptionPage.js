@@ -32,9 +32,6 @@ export default function DescriptionPage() {
       options: {
         infuraId: "5bb80a78a3b74311859498fa0472f24f"
       }
-    },
-    authereum: {
-      package: Authereum
     }
   };
   const web3Modal = new Web3Modal({
@@ -77,7 +74,7 @@ export default function DescriptionPage() {
     const contract = new ethers.Contract(CONTRACT_ADDRESS, TwoBrothersAndOneLumbo.abi, signer)
     const usdt = new ethers.Contract(USDT,ERC20.abi, signer)
     console.log(provider)
-    await usdt.approve(CONTRACT_ADDRESS ,price)
+    await usdt.approve(CONTRACT_ADDRESS , price)
     const transaction = await contract.buyItem(id)
     await transaction.wait()
     setBuyButtonText("SOLD")
