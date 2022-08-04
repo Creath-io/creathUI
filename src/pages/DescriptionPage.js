@@ -22,10 +22,10 @@ var base64 = require('base-64');
 
 export default function DescriptionPage() {
   const params = useParams();
-  const [buyButtonText, setBuyButtonText] = useState("Buy");
+  const [buyButtonText, setBuyButtonText] = useState("BUY")
   const [art, setArt] = useState("");
   const [isSold, setIsSold] = useState(false)
-  const txn = "Loading...";
+  const [load, setLoad] = useState(false);
 
   const providerOptions = {
     walletconnect: {
@@ -70,8 +70,9 @@ export default function DescriptionPage() {
       const provider = new ethers.providers.JsonRpcProvider(PROVIDER)
       const contract = new ethers.Contract(CONTRACT_ADDRESS, TwoBrothersAndOneLumbo.abi, provider)
 
-      //const item = await contract.idToMarketItems(params.key);
-      console.log("status:",contract)
+      const item = await contract.isSold(params.key);
+      //item ? setBuyButtonText("SOLD") : setBuyButtonText("BUY")
+      setIsSold(item);
     }
   
 
@@ -84,10 +85,10 @@ export default function DescriptionPage() {
     const contract = new ethers.Contract(CONTRACT_ADDRESS, TwoBrothersAndOneLumbo.abi, signer)
     const usdt = new ethers.Contract(USDT,ERC20.abi, signer)
     await usdt.approve(CONTRACT_ADDRESS , price)
-    setBuyButtonText(txn)
+    setLoad(true)
     const transaction = await contract.buyItem(id)
     await transaction.wait()
-    setBuyButtonText("SOLD")
+    setLoad(false)
   }
 
   return (
@@ -122,10 +123,8 @@ export default function DescriptionPage() {
                   Price
                 </p>
                 <p className="artist-name">{art.price} USDT</p>
-                { buyButtonText == "Buy" ? <button className="buy-button" onClick={() => buyItem(params.key, art.price)}>
-                  {buyButtonText}
-                </button> : <button className="buy-button">
-                { isSold ? buyButtonText : "Sold "}
+                { load ? <button className="buy-button">{"Loading..."}</button> : isSold ? <button className="buy-button">{"SOLD"}</button> : <button className="buy-button" onClick={() => buyItem(params.key, art.price)}>
+                {"BUY"}
               </button>}
               </div>
 

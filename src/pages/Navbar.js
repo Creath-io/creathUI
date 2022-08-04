@@ -3,7 +3,6 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import { Outlet, Link } from "react-router-dom";
 import appLogo from "../creath-logo.png";
 import Newsletter from "./Newsletter";
-import { ethers } from "ethers";
 
 export default function Navbar() {
   const navRef = useRef();

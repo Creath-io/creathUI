@@ -1,15 +1,5 @@
-const CONTRACT_ADDRESS = "0xF7c2a89071187ccE6ac1fdAAF995bbE3563062Ea"
-const USDT = "0x77906846600910Ef08704e2Bf98467a46CA69FD2"
+const CONTRACT_ADDRESS = "0xf09d16E36a1802cC79e5d986DB7AAe3a7581DA2c"
+const USDT = "0xa147C438Fb98E382C07493712f0888d5Fcd02429"
 const PROVIDER = "https://quiet-twilight-smoke.rinkeby.discover.quiknode.pro/d8f3f4148d07a0f521ec4db39fe487a4ea784fad"
 
-const transformData = (data) => {
-    return {
-        id: data.tokenId,
-        seller: data.seller,
-        owner: data.owner,
-        price: data.price,
-        sold: data.sold,
-    };
-};
-
-export {CONTRACT_ADDRESS,USDT, PROVIDER, transformData};
+export {CONTRACT_ADDRESS,USDT, PROVIDER};
