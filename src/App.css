@@ -97,6 +97,11 @@ body {
   grid-gap: 5px;
 }
 
+button {
+  -webkit-appearance: none !important;
+  -webkit-border-radius: 0;
+}
+
 .sendfox--container p input,
 .sendfox--container button {
   padding: 15px;
@@ -104,7 +109,6 @@ body {
   border-radius: 0px;
   margin-bottom: 5px;
 }
-
 /* home page, hero section media query begins*/
 @media screen and (min-width: 600px) {
   .sendfox--form {
