@@ -580,4 +580,19 @@ h2 {
   }
 }
 
-/* animation effect */
+/* subsccription page styling */
+.subscription--page {
+  display: flex;
+  margin-top: 60px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+}
+
+.subscription--page a {
+  color: red;
+}

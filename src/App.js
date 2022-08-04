@@ -6,6 +6,7 @@ import Marketplace from "./pages/Marketplace";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Footer from "./pages/Footer";
 import PagesRoutes from "./pages/Routes";
+import SubscriptionPage from "./pages/SubscriptionPage";
 function App() {
   return (
     <BrowserRouter>
@@ -14,6 +15,10 @@ function App() {
         <Route index element={<Home />} />
         <Route path="/marketplace" element={<Marketplace />} />
         {PagesRoutes()}
+        <Route
+          path="/subscription-confirmation"
+          element={<SubscriptionPage />}
+        />
       </Routes>
       <Footer />
     </BrowserRouter>
