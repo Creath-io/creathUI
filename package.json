@@ -1,7 +1,7 @@
 {
   "name": "creath",
   "version": "0.1.0",
-  "homepage": "https://creath.io"
+  "homepage": "https://creath.io",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.2",
