@@ -38,7 +38,7 @@ export default function Art(props) {
               className="art-icon"
               icon={faUser}
             ></FontAwesomeIcon>{" "}
-            Owner
+            Artist
           </p>
           <p className="artist-name">{props.artist}</p>
         </div>

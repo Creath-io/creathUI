@@ -16,14 +16,23 @@ export default function Newsletter(props) {
         Join our mailing list to stay in the loop with our newest feature
         releases, NFT drops, and tips and tricks for navigating CREATH.{" "}
       </p>
-      <div className="footer--newsletter-form">
-        <input
-          className="subscription-input"
-          type="text"
-          placeholder="Email"
-        ></input>
-        <button className="subscription-button">Subscribe</button>
-      </div>
+      <form
+        method="post"
+        action="https://sendfox.com/form/m2r4wd/m809w6"
+        className="sendfox-form"
+        id="m809w6"
+        data-async="true"
+        data-recaptcha="true"
+      >
+        <div className="footer--newsletter-form">
+          <input
+            className="subscription-input"
+            type="text"
+            placeholder="Email"
+          ></input>
+          <button className="subscription-button">Subscribe</button>
+        </div>
+      </form>
       <div className="footer--social-media">
         <ul>
           <li>

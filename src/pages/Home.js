@@ -6,7 +6,10 @@ export default function Home() {
       <div className="home">
         <div className="home--hero">
           <div className="hero--copy">
-            <h1 className="hero--heading">Creativity x Innovation</h1>
+            <h1 className="hero--heading">Creativity</h1>
+            <h1 className="hero--heading">x</h1>
+            <h1 className="hero--heading">Innovation</h1>
+            <br></br>
             <p className="hero--paragraph">
               CREATH is a diverse team of highly skilled professionals with
               creative visualisation building a global community of artists and
@@ -67,6 +70,9 @@ export default function Home() {
                 </p>
                 <p>
                   <strong>MINT DATE: TBA</strong>
+                </p>
+                <p>
+                  <strong>MINT PRICE: FREE</strong>
                 </p>
                 <br></br>
                 <p>Sign up for a whitelist spot</p>

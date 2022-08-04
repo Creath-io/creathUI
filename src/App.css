@@ -51,9 +51,15 @@ body {
   padding: 20px;
 }
 
-.home--hero h1 {
+.home--hero h1,
+.home--hero p {
   color: white;
-  font-size: 2.5rem !important;
+  text-align: center;
+}
+
+.home--hero h1 {
+  font-size: 3.5rem !important;
+  margin: 0px !important;
 }
 
 .home--section {
@@ -563,7 +569,7 @@ h2 {
 @media screen and (min-width: 1050px) {
   footer {
     display: grid;
-    grid-template-columns: 2fr repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     grid-gap: 30px;
   }
 }

@@ -31,11 +31,11 @@ export default function Footer() {
     <footer className="website-footer">
       <div className="footer--company-intro">
         <h1>CREATH</h1>
-        <p>
+        {/* <p>
           CREATH is a diverse team of highly skilled professionals with creative
           visualisation building a global community of creatives and elite
           collectors by forging a new model of culture and value in web3.
-        </p>
+        </p> */}
       </div>
       <div className="footer--services">
         <h2>Services</h2>
