@@ -4,7 +4,7 @@ export default function SendfoxSignup() {
       <form
         method="post"
         action="https://sendfox.com/form/m2r4wd/1wn97w"
-        className="sendfox-form"
+        className="sendfox--form"
         id="1wn97w"
         data-async="true"
         data-recaptcha="false"
@@ -15,10 +15,9 @@ export default function SendfoxSignup() {
         <p>
           <input type="email" placeholder="Email" name="email" required />
         </p>
-
-        <p>
-          <button type="submit">Sign Up</button>
-        </p>
+        <button className="submit-button" type="submit">
+          Sign Up
+        </button>
       </form>
       <script src="https://sendfox.com/js/form.js"></script>
     </section>

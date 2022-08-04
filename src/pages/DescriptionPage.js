@@ -1,10 +1,7 @@
-import {ethers} from "ethers";
+import { ethers } from "ethers";
 import "../DescriptionPage.css";
 import { useParams } from "react-router-dom";
-import {
-  CONTRACT_ADDRESS,
-  USDT,
-  PROVIDER } from "../constants"
+import { CONTRACT_ADDRESS, USDT, PROVIDER } from "../constants";
 import Navbar from "./Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TwoBrothersAndOneLumbo from "../abis/marketplace.json";
@@ -15,80 +12,90 @@ import {
   faList,
   faFeather,
 } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from 'react'
-import Web3Modal from 'web3modal';
+import { useEffect, useState } from "react";
+import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
-var base64 = require('base-64');
+var base64 = require("base-64");
 
 export default function DescriptionPage() {
   const params = useParams();
-  const [buyButtonText, setBuyButtonText] = useState("BUY")
+  const [buyButtonText, setBuyButtonText] = useState("BUY");
   const [art, setArt] = useState("");
-  const [isSold, setIsSold] = useState(false)
+  const [isSold, setIsSold] = useState(false);
   const [load, setLoad] = useState(false);
 
   const providerOptions = {
     walletconnect: {
-      package: WalletConnectProvider, 
+      package: WalletConnectProvider,
       options: {
-        infuraId: "5bb80a78a3b74311859498fa0472f24f"
-      }
-    }
+        infuraId: "5bb80a78a3b74311859498fa0472f24f",
+      },
+    },
   };
   const web3Modal = new Web3Modal({
     network: "rinkeby",
     theme: "dark",
     cacheProvider: true,
-    providerOptions 
+    providerOptions,
   });
 
-    useEffect(()=> {
-      fetchMetadata()
-      checkStatus()
-    },[])
+  useEffect(() => {
+    fetchMetadata();
+    checkStatus();
+  }, []);
 
+  const fetchMetadata = async () => {
+    console.log("fetching nft");
+    const provider = new ethers.providers.JsonRpcProvider(PROVIDER);
+    const contract = new ethers.Contract(
+      CONTRACT_ADDRESS,
+      TwoBrothersAndOneLumbo.abi,
+      provider
+    );
 
-    const fetchMetadata = async() => {
-      console.log("fetching nft");
-      const provider = new ethers.providers.JsonRpcProvider(PROVIDER)
-      const contract = new ethers.Contract(CONTRACT_ADDRESS, TwoBrothersAndOneLumbo.abi, provider)
+    const tokenUri = await contract.tokenURI(params.key);
+    const json = base64.decode(tokenUri.substring(29));
+    const meta = JSON.parse(json);
+    setArt({
+      price: meta.price,
+      artist: meta.artist,
+      img: meta.img,
+      title: meta.title,
+      description: meta.description,
+    });
+  };
+  fetchMetadata();
 
-      const tokenUri = await contract.tokenURI(params.key);
-      const json = base64.decode(tokenUri.substring(29))
-      const meta = JSON.parse(json)
-      setArt({
-        price: meta.price,
-        artist: meta.artist,
-        img: meta.img,
-        title: meta.title,
-        description: meta.description
-      })
-    }
-    fetchMetadata()
+  const checkStatus = async () => {
+    const provider = new ethers.providers.JsonRpcProvider(PROVIDER);
+    const contract = new ethers.Contract(
+      CONTRACT_ADDRESS,
+      TwoBrothersAndOneLumbo.abi,
+      provider
+    );
 
-    const checkStatus = async () => {
-      const provider = new ethers.providers.JsonRpcProvider(PROVIDER)
-      const contract = new ethers.Contract(CONTRACT_ADDRESS, TwoBrothersAndOneLumbo.abi, provider)
-
-      const item = await contract.isSold(params.key);
-      //item ? setBuyButtonText("SOLD") : setBuyButtonText("BUY")
-      setIsSold(item);
-    }
-  
+    const item = await contract.isSold(params.key);
+    //item ? setBuyButtonText("SOLD") : setBuyButtonText("BUY")
+    setIsSold(item);
+  };
 
   async function buyItem(id, price) {
     /* needs the user to sign the transaction, so will use Web3Provider and sign it */
-    
-    const connection = await web3Modal.connect()
-    const provider = new ethers.providers.Web3Provider(connection)
-    const signer = provider.getSigner()
-    const contract = new ethers.Contract(CONTRACT_ADDRESS, TwoBrothersAndOneLumbo.abi, signer)
-    const usdt = new ethers.Contract(USDT,ERC20.abi, signer)
-    await usdt.approve(CONTRACT_ADDRESS , price)
-    setLoad(true)
-    const transaction = await contract.buyItem(id)
-    await transaction.wait()
-    setLoad(false)
+
+    const connection = await web3Modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(
+      CONTRACT_ADDRESS,
+      TwoBrothersAndOneLumbo.abi,
+      signer
+    );
+    const usdt = new ethers.Contract(USDT, ERC20.abi, signer);
+    await usdt.approve(CONTRACT_ADDRESS, price);
+    setLoad(true);
+    const transaction = await contract.buyItem(id);
+    await transaction.wait();
+    setLoad(false);
   }
 
   return (
@@ -96,7 +103,7 @@ export default function DescriptionPage() {
       <section className="container">
         <section className="description-container">
           <div className="description-image-container">
-            <img src={`${art.img}`} className="description-image" alt=""/>
+            <img src={`${art.img}`} className="description-image" alt="" />
           </div>
           <div className="description">
             <header className="description-header">
@@ -123,9 +130,18 @@ export default function DescriptionPage() {
                   Price
                 </p>
                 <p className="artist-name">{art.price} USDT</p>
-                { load ? <button className="buy-button">{"Loading..."}</button> : isSold ? <button className="buy-button">{"SOLD"}</button> : <button className="buy-button" onClick={() => buyItem(params.key, art.price)}>
-                {"BUY"}
-              </button>}
+                {load ? (
+                  <button className="buy-button">{"Loading..."}</button>
+                ) : isSold ? (
+                  <button className="buy-button">{"SOLD"}</button>
+                ) : (
+                  <button
+                    className="buy-button"
+                    onClick={() => buyItem(params.key, art.price)}
+                  >
+                    {"BUY"}
+                  </button>
+                )}
               </div>
 
               <div className="art-contract-details">
@@ -146,7 +162,7 @@ export default function DescriptionPage() {
                 className="details-icon"
                 icon={faFeather}
               ></FontAwesomeIcon>{" "}
-              The Story
+              Description
             </h1>
             <p className="art-description">{art.description}</p>
           </div>
