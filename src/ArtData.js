@@ -6,7 +6,7 @@ export default [
     description:
       "Man’s conscience has been seared with a hot iron. The state of our nation has brought people to the point where their conscience is completely dead and their lives hypocritical. A seared mind is darkened in its understanding and has lost all sensitivity to reality. Everything wrong is now normal and it’s ok.",
     style: "Digital Art",
-    price: 2400,
+    price: 1400,
     img: `https://res.cloudinary.com/creath-io/image/upload/v1659552777/3._DEAD_SEARED_MIND_pajmnm.png`,
   },
 
@@ -17,7 +17,7 @@ export default [
     description:
       "Why shed the blood of the innocent blood? Why bury the younger generation in the soil of your cruelty?Why kill our future leaders because they speak the truth? Is it because they stand up for the truth, or cos they demand their rights you’ve forcefully taken from them? Why do we silence their voices? Why do we celebrate corruption and praise mediocrity? Why do the leaders hate structure? Justice is coming. Be warned. The voices of the blood of the innocent have been heard.",
     style: "Digital Art",
-    price: 1600,
+    price: 1400,
     img: `https://res.cloudinary.com/creath-io/image/upload/v1659552769/2._Justice_is_coming_twkwrb.png`,
   },
 
@@ -28,7 +28,7 @@ export default [
     description:
       "A nation so great, a nation so blessed, a nation so powerfully rich in natural resources is out of gas. The same substance that flows beneath the surface of this motherland. What is natural has become more scarce than what is artificial in our nation.",
     style: "Digital Art",
-    price: 1600,
+    price: 1400,
     img: `https://res.cloudinary.com/creath-io/image/upload/v1659552792/1._GAS_FEE_pra4zy.png`,
   },
 
@@ -247,7 +247,7 @@ export default [
     description:
       "This was shot at agege on the agege train shuttle. It was disheartening to see such a place with a moderately good railway system be also used as a waste site, a market place and “home” all in one. ",
     style: "Photography",
-    price: 21500,
+    price: 1500,
     img: `https://res.cloudinary.com/creath-io/image/upload/v1658860225/23._Jaga_Jaga_vgkwwt.jpg`,
   },
 
@@ -269,7 +269,7 @@ export default [
     description:
       "Two brothers keep fighting fiercely over what they will get from their parents. They keep pointing and naming all the things they want to own after their parents are gone. The problem is, they’re only focused on the material inheritances, forgetting to ask questions about the immaterial ones they will be getting too. What about the name? What is the reputation? What about the ideals they are left with? \nWhat are the benefits these inheritances come with?\n Or are they just an addition to the menaces and woes of society?",
     style: "Sculpture",
-    price: 1500,
+    price: 1000,
     img: `https://res.cloudinary.com/creath-io/video/upload/v1659530410/25._Dead_bone_shall_rise_again_-converted_dn1tmb.mp4`,
   },
 
@@ -313,7 +313,7 @@ export default [
     description:
       "Is there a single one of us who hasn’t gone on a rampage to purge in our heads, when we get these breaking news? Or, are we broken? And these news never stop coming. We can’t act on them, lest we become like those who cause these thoughts.",
     style: "Digital Art",
-    price: 2400,
+    price: 500,
     img: `https://res.cloudinary.com/creath-io/image/upload/v1659552759/29._Disastrous_Thoughts_1_gnekih.png`,
   },
 
