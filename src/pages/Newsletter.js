@@ -33,6 +33,7 @@ export default function Newsletter(props) {
           <button className="subscription-button">Subscribe</button>
         </div>
       </form>
+      <script src="https://sendfox.com/js/form.js"></script>
       <div className="footer--social-media">
         <ul>
           <li>
