@@ -25,6 +25,11 @@ export default function DescriptionPage() {
   const artImage = ArtData.find(item => {
     return item.id == params.key
  })
+
+ const mediaFile = artImage.img.slice(-3) 
+
+    console.log("media:", mediaFile)
+
   const providerOptions = {
     walletconnect: {
       package: WalletConnectProvider,
@@ -84,7 +89,13 @@ export default function DescriptionPage() {
       <section className="container">
         <section className="description-container">
           <div className="description-image-container">
-            <img src={`${artImage.img}`} className="description-image" alt="" />
+          {artImage.img.slice(-3) === "mp4" ? (
+            <video className="art-video" controls loop>
+              <source src={artImage.img} type="video/mp4" />
+            </video>
+          ) : (
+            <img className="art-image" src={artImage.img} alt="burnOut" />
+          )}
           </div>
           <div className="description">
             <header className="description-header">
