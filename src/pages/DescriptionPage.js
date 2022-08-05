@@ -30,13 +30,15 @@ export default function DescriptionPage() {
       package: WalletConnectProvider,
       options: {
         infuraId: "5bb80a78a3b74311859498fa0472f24f",
+        network: 'mainnet',
+        chainId: 1,
       },
     },
   };
   const web3Modal = new Web3Modal({
-    network: "rinkeby",
+    network: "mainnet",
     theme: "dark",
-    cacheProvider: true,
+    cacheProvider: false,
     providerOptions,
   });
 
