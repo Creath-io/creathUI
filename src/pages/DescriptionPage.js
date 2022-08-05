@@ -72,7 +72,7 @@ export default function DescriptionPage() {
       signer
     );
     const usdt = new ethers.Contract(USDT, ERC20.abi, signer);
-    await usdt.approve(CONTRACT_ADDRESS, price);
+    await usdt.approve(CONTRACT_ADDRESS, price * 1e6);
     setLoad(true);
     const transaction = await contract.buyItem(id);
     await transaction.wait();
