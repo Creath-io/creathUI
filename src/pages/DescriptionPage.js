@@ -23,18 +23,6 @@ export default function DescriptionPage() {
     return item.id == params.key
  })
 
-
-
-  const providerOptions = {
-    walletconnect: {
-      package: WalletConnectProvider,
-      options: {
-        infuraId: "5bb80a78a3b74311859498fa0472f24f",
-        network: 'mainnet',
-        chainId: 1,
-      },
-    },
-  };
   useEffect(() => {
     checkStatus();
   }, []);
