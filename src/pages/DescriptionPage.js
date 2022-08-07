@@ -144,7 +144,7 @@ export default function DescriptionPage() {
     }
   }
 
-  const buyItem = async (id, price) => {
+  const buyItemTxn = async (id, price) => {
     try {
       const { ethereum } = window;
   
@@ -252,7 +252,7 @@ export default function DescriptionPage() {
                 ) : (
                   <button
                     className="buy-button"
-                    onClick={() => buyItem(params.key, artImage.price)}
+                    onClick={() => buyItemTxn(params.key, artImage.price)}
                   >
                     {"BUY"}
                   </button>
