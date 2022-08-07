@@ -139,7 +139,7 @@ export default function DescriptionPage() {
           const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, TwoBrothersAndOneLumbo.abi, signer);
   
           console.log("Going to pop wallet now to pay gas...")
-          let Txn = await usdt.approve(CONTRACT_ADDRESS, price * 1e18);
+          let Txn = await usdt.approve(CONTRACT_ADDRESS, price * 1e12);
           //Txn = await usdt.transferFrom(signer.getAddress(), TREASURY, price * 1e6)
           Txn = await connectedContract.buyItem(id);
     
