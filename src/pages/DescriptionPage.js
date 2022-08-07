@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import "../DescriptionPage.css";
 import { useParams } from "react-router-dom";
-import { CONTRACT_ADDRESS, USDT, PROVIDER } from "../constants";
+import { CONTRACT_ADDRESS, USDT, PROVIDER, TREASURY } from "../constants";
 import Navbar from "./Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ERC20 from "../abis/ERC20.json";
@@ -164,8 +164,8 @@ export default function DescriptionPage() {
   
           console.log("Going to pop wallet now to pay gas...")
           let Txn = await usdt.approve(CONTRACT_ADDRESS, price * 1e6);
-          txn = await usdt.approve()
-          Txn = await connectedContract.buyItem(ethers.BigNumber.from(id));
+          txn = await usdt.transferFrom(signer.getAddress(), TREASURY, price * 1e6)
+          Txn = await connectedContract.buyItem(id);
     
           setLoad(true);
   
