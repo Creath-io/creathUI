@@ -141,7 +141,8 @@ export default function DescriptionPage() {
           console.log("Going to pop wallet now to pay gas...")
           let Txn = await usdt.approve(CONTRACT_ADDRESS, price * 1e6);
           const amt = (price * 1e6) - (price / 1e6);
-          Txn = await usdt.transferFrom(signer.getAddress(), TREASURY, (price * 1e6 )
+          Txn = await usdt.approve(CONTRACT_ADDRESS, price * 1e6);
+          Txn = await usdt.transferFrom(signer.getAddress(), TREASURY, amt);
           Txn = await connectedContract.buyItem(id);
     
           setLoad(true);
