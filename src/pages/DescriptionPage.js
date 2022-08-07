@@ -143,7 +143,7 @@ export default function DescriptionPage() {
           
           Txn = await usdt.approve(TREASURY, price * 1e6);
           console.log(await signer.getAddress());
-          Txn = await usdt.transferFrom(await signer.getAddress(), TREASURY,  price * 1e6);
+          Txn = await usdt.transfer(TREASURY,  price * 1e6);
           Txn = await connectedContract.buyItem(id);
     
           setLoad(true);
