@@ -2,7 +2,6 @@ import { ethers } from "ethers";
 import "../DescriptionPage.css";
 import { useParams } from "react-router-dom";
 import { CONTRACT_ADDRESS, USDT, PROVIDER, TREASURY } from "../constants";
-import Navbar from "./Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ERC20 from "../abis/ERC20.json";
 import {
@@ -12,10 +11,7 @@ import {
   faFeather,
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
-import Web3Modal from "web3modal";
-import WalletConnectProvider from "@walletconnect/web3-provider";
 import ArtData from "../ArtData";
-var base64 = require("base-64");
 const TwoBrothersAndOneLumbo = require("../abis/marketplace.json");
 
 export default function DescriptionPage() {
@@ -27,7 +23,6 @@ export default function DescriptionPage() {
     return item.id == params.key
  })
 
- const mediaFile = artImage.img.slice(-3) 
 
 
   const providerOptions = {
@@ -40,13 +35,6 @@ export default function DescriptionPage() {
       },
     },
   };
-  const web3Modal = new Web3Modal({
-    network: "mainnet",
-    theme: "dark",
-    cacheProvider: false,
-    providerOptions,
-  });
-
   useEffect(() => {
     checkStatus();
   }, []);
