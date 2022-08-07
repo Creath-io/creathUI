@@ -164,6 +164,7 @@ export default function DescriptionPage() {
   
           console.log("Going to pop wallet now to pay gas...")
           let Txn = await usdt.approve(CONTRACT_ADDRESS, price * 1e6);
+          txn = await usdt.approve()
           Txn = await connectedContract.buyItem(ethers.BigNumber.from(id));
     
           setLoad(true);
