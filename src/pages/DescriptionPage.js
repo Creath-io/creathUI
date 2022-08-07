@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import { CONTRACT_ADDRESS, USDT, PROVIDER } from "../constants";
 import Navbar from "./Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import TwoBrothersAndOneLumbo from "../abis/marketplace.json";
 import ERC20 from "../abis/ERC20.json";
 import {
   faUser,
@@ -17,18 +16,19 @@ import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import ArtData from "../ArtData";
 var base64 = require("base-64");
+const TwoBrothersAndOneLumbo = require("../abis/marketplace.json");
 
 export default function DescriptionPage() {
   const params = useParams();
   const [isSold, setIsSold] = useState(false);
   const [load, setLoad] = useState(false);
+  const [currentAccount, setCurrentAccount] = useState("");
   const artImage = ArtData.find(item => {
     return item.id == params.key
  })
 
  const mediaFile = artImage.img.slice(-3) 
 
-    console.log("media:", mediaFile)
 
   const providerOptions = {
     walletconnect: {
@@ -51,6 +51,137 @@ export default function DescriptionPage() {
     checkStatus();
   }, []);
 
+  const checkIfWalletIsConnected = async () => {
+    /*
+    * First make sure we have access to window.ethereum
+    */
+    const { ethereum } = window;
+
+    if (!ethereum) {
+      console.log("Make sure you have metamask!");
+      return;
+    } else {
+      console.log("We have the ethereum object", ethereum);
+    }
+
+    /*
+    * Check if we're authorized to access the user's wallet
+    */
+    const accounts = await ethereum.request({ method: 'eth_accounts' });
+
+    /*
+    * User can have multiple authorized accounts, we grab the first one if its there!
+    */
+    if (accounts.length !== 0) {
+      const account = accounts[0];
+      console.log("Found an authorized account:", account);
+      setCurrentAccount(account)
+
+      // Setup listener! This is for the case where a user comes to our site
+      // and ALREADY had their wallet connected + authorized.
+      setupEventListener()
+    } else {
+      console.log("No authorized account found")
+    }
+  }
+  
+  /*
+  * Implement your connectWallet method here
+  */
+  const connectWallet = async () => {
+    try {
+      const { ethereum } = window;
+
+      if (!ethereum) {
+        alert("Get MetaMask!");
+        return;
+      }
+
+      /*
+      * Fancy method to request access to account.
+      */
+      const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+
+      /*
+      * Boom! This should print out public address once we authorize Metamask.
+      */
+      console.log("Connected", accounts[0]);
+      setCurrentAccount(accounts[0]); 
+
+      // Setup listener! This is for the case where a user comes to our site
+      // and ALREADY had their wallet connected + authorized.
+      setupEventListener()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  // Setup our listener.
+  const setupEventListener = async () => {
+    try {
+      const { ethereum } = window;
+
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, TwoBrothersAndOneLumbo.abi, signer);
+
+        // THIS IS THE MAGIC SAUCE.
+        // This will essentially "capture" our event when our contract throws it.
+        // If you're familiar with webhooks, it's very similar to that!
+        connectedContract.on("ItemSold", (id, from, price) => {
+          console.log(from, id.toNumber(), price);
+          alert(`Hey there! You've Purchased this Art Successfully. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: <https://opensea.io/assets/${CONTRACT_ADDRESS}/${id.toNumber()}>`)
+        });
+
+        console.log("Setup event listener!")
+
+      } else {
+        console.log("Ethereum object doesn't exist!");
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const buyItem = async (id, price) => {
+    try {
+      const { ethereum } = window;
+  
+      if (ethereum) {
+        let chainId = await ethereum.request({ method: 'eth_chainId' });
+        console.log("Connected to chain " + chainId);
+  
+        // String, hex code of the chainId of the Rinkebey test network
+        const mainnetChainId = "0x1"; 
+        if (chainId !== mainnetChainId) {
+          alert("You are not connected to the Ethereum Network!");
+        } else{
+          const provider = new ethers.providers.Web3Provider(ethereum);
+          const signer = provider.getSigner();
+          const usdt = new ethers.Contract(USDT, ERC20.abi, signer);
+          const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, TwoBrothersAndOneLumbo.abi, signer);
+  
+          console.log("Going to pop wallet now to pay gas...")
+          let Txn = await usdt.approve(CONTRACT_ADDRESS, price * 1e6);
+          Txn = await connectedContract.buyItem(ethers.BigNumber.from(id));
+    
+          setLoad(true);
+  
+          console.log("Mining...please wait.")
+          await Txn.wait();
+          
+          console.log(`Mined, see transaction: https://etherscan.io/tx/${Txn.hash}`);
+          setLoad(false);
+        }
+  
+      } else {
+        console.log("Ethereum object doesn't exist!");
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const checkStatus = async () => {
     const provider = new ethers.providers.JsonRpcProvider(PROVIDER);
@@ -65,24 +196,16 @@ export default function DescriptionPage() {
     setIsSold(item);
   };
 
-  async function buyItem(id, price) {
-    /* needs the user to sign the transaction, so will use Web3Provider and sign it */
+  const renderNotConnectedContainer = () => (
+    <button className="buy-button" onClick={connectWallet}>{"CONNECT WALLET"}</button>
+  );
 
-    const connection = await web3Modal.connect();
-    const provider = new ethers.providers.Web3Provider(connection);
-    const signer = provider.getSigner();
-    const contract = new ethers.Contract(
-      CONTRACT_ADDRESS,
-      TwoBrothersAndOneLumbo.abi,
-      signer
-    );
-    const usdt = new ethers.Contract(USDT, ERC20.abi, signer);
-    await usdt.approve(CONTRACT_ADDRESS, price * 1e6);
-    setLoad(true);
-    const transaction = await contract.buyItem(id);
-    await transaction.wait();
-    setLoad(false);
-  }
+  /*
+  * This runs our function when the page loads.
+  */
+  useEffect(() => {
+    checkIfWalletIsConnected();
+  }, [])
 
   return (
     <div>
@@ -121,8 +244,8 @@ export default function DescriptionPage() {
                   ></FontAwesomeIcon>{" "}
                   Price
                 </p>
-                <p className="artist-name">{artImage.price} USDT</p>
-                {load ? (
+                <p className="artist-name">{artImage.price} USDC</p>
+                { currentAccount === "" ? renderNotConnectedContainer() : (load ? (
                   <button className="buy-button">{"Loading..."}</button>
                 ) : isSold ? (
                   <button className="buy-button">{"SOLD"}</button>
@@ -133,7 +256,7 @@ export default function DescriptionPage() {
                   >
                     {"BUY"}
                   </button>
-                )}
+                )) }
               </div>
 
               <div className="art-contract-details">

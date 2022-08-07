@@ -50,7 +50,7 @@ export default function Art(props) {
             ></FontAwesomeIcon>{" "}
             Price
           </p>
-          <p className="art-price">{props.price} USDT</p>
+          <p className="art-price">{props.price} USDC</p>
         </div>
       </div>
     </div>
