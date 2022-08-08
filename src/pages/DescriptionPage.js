@@ -53,9 +53,7 @@ export default function DescriptionPage() {
       console.log("Found an authorized account:", account);
       setCurrentAccount(account)
 
-      // Setup listener! This is for the case where a user comes to our site
-      // and ALREADY had their wallet connected + authorized.
-      setupEventListener()
+     
     } else {
       console.log("No authorized account found")
     }
@@ -84,9 +82,6 @@ export default function DescriptionPage() {
       console.log("Connected", accounts[0]);
       setCurrentAccount(accounts[0]); 
 
-      // Setup listener! This is for the case where a user comes to our site
-      // and ALREADY had their wallet connected + authorized.
-      setupEventListener()
     } catch (error) {
       console.log(error)
     }
@@ -107,7 +102,7 @@ export default function DescriptionPage() {
         // If you're familiar with webhooks, it's very similar to that!
         connectedContract.on("ItemSold", (id, from, price) => {
           console.log(from, id.toNumber(), price);
-          alert(`Hey there! You've Purchased this Art Successfully. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: <https://opensea.io/assets/${CONTRACT_ADDRESS}/${id.toNumber()}>`)
+          alert(`Hey there! You've Bought this Item Successfully. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: <https://opensea.io/assets/${CONTRACT_ADDRESS}/${id.toNumber()}>`)
         });
 
         console.log("Setup event listener!")
@@ -153,6 +148,8 @@ export default function DescriptionPage() {
           
           console.log(`Mined, see transaction: https://etherscan.io/tx/${Txn.hash}`);
           setLoad(false);
+          checkStatus();
+          setupEventListener();
         }
   
       } else {
