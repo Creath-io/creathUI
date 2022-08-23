@@ -10,7 +10,7 @@ const Marketplace = () => {
         artist: art.artist,
         price: art.price,
         artImage: art.img,
-        style: art.style
+        style: art.style,
       }
       return item
     });

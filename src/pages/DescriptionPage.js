@@ -20,7 +20,7 @@ export default function DescriptionPage() {
   const [load, setLoad] = useState(false);
   const [currentAccount, setCurrentAccount] = useState("");
   const artImage = ArtData.find(item => {
-    return item.id == params.key
+    return item.id === params.key
  })
 
   useEffect(() => {
@@ -189,7 +189,7 @@ export default function DescriptionPage() {
       <section className="container">
         <section className="description-container">
           <div className="description-image-container">
-          {artImage.img.slice(-3) === "mp4" ? (
+          {artImage.url === "mp4" ? (
             <video className="art-video" controls loop>
               <source src={artImage.img} type="video/mp4" />
             </video>
