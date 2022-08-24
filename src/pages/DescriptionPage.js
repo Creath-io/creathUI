@@ -19,9 +19,8 @@ export default function DescriptionPage() {
   const [isSold, setIsSold] = useState(false);
   const [load, setLoad] = useState(false);
   const [currentAccount, setCurrentAccount] = useState("");
-  const artImage = ArtData.find(item => {
-    return item.id === params.key
- })
+  const artImage = ArtData[params.key - 1]
+ console.log(ArtData[0])
 
   useEffect(() => {
     checkStatus();
@@ -189,7 +188,7 @@ export default function DescriptionPage() {
       <section className="container">
         <section className="description-container">
           <div className="description-image-container">
-          {artImage.url === "mp4" ? (
+          {artImage.img.slice(-3) === "mp4" ? (
             <video className="art-video" controls loop>
               <source src={artImage.img} type="video/mp4" />
             </video>
